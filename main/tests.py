@@ -19,6 +19,8 @@ class mainTest(TestCase):
         Product.objects.create(name="Pikachu", amount="500"
                                , description="Mascot of Pokemon", price="10")
 
+
+
     # def test_animals_can_speak(self):
     #     """Animals that can speak are correctly identified"""
     #     lion = Product.objects.get(name="lion")
