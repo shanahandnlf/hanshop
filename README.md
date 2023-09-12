@@ -96,6 +96,7 @@ Kode ini membuat path __main/__ akan diarahkan ke urls.py yang berada dalam apli
 
 ![Alt text](image.png)
 
+Alurnya pertama client akan meminta request yang diarahkan ke urls.py. Disini pola URL di urls.py akan dicocokka dengan URL yang diterima Kemudian urls.py akan memilih fungsi view sesuai request dari user. Selanjutnya View akan melakukan query ke model dimana model dapat melakukan transaksi data dengan database untuk mendapatkan data yang sesuai. Model kemudian akan mengirim _respond data_ ke view kembali yag dilanjutkan dengan view memilih template HTML yang sesuai dengan permintaan client. Terakhir, template yang telah dipilih akan ditampilkan ke pengguna dari halaman web
 
 3. Jelaskan mengapa kita menggunakan virtual environment? Apakah kita tetap dapat membuat aplikasi web berbasis Django tanpa menggunakan virtual environment?
 
