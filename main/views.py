@@ -4,7 +4,7 @@ from django.shortcuts import render
 
 def show_main(request):
     context = {
-        'app_name': 'HanShop',
+        'app_name': 'Han Shop',
         'nama_mahasiswa': 'Shanahan Danualif Erwin',
         'class_name': 'PBP F',
     }
