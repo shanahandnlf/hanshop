@@ -13,7 +13,7 @@ class mainTest(TestCase):
         self.assertTemplateUsed(response, 'main.html')
 
     # new testing
-    def setUp(self):
+    def test_setUp(self):
         Product.objects.create(name="Holo Charizard", amount="100"
                                , description="Authentic Charizard carfrom 1999", price="4200")
         Product.objects.create(name="Pikachu", amount="500"
