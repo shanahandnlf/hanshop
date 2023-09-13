@@ -18,14 +18,3 @@ class mainTest(TestCase):
                                , description="Authentic Charizard carfrom 1999", price="4200")
         Product.objects.create(name="Pikachu", amount="500"
                                , description="Mascot of Pokemon", price="10")
-
-
-
-    # def test_animals_can_speak(self):
-    #     """Animals that can speak are correctly identified"""
-    #     lion = Product.objects.get(name="lion")
-    #     cat = Product.objects.get(name="cat")
-    #     self.assertEqual(lion.speak(), 'The lion says "roar"')
-    #     self.assertEqual(cat.speak(), 'The cat says "meow"')
-
-    
