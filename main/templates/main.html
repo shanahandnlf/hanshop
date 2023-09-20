@@ -1,10 +1,46 @@
-<h1>Trading Card Store</h1>
+{% extends 'base.html' %}
 
-<h5>Nama aplikasi: </h5>
-<p>{{app_name}}<p>
-<h5>Nama: </h5>
-<p>{{nama_mahasiswa}}</p><p>
-<h5>Kelas: </h5>
-<p>{{class_name}}<p>
+{% block content %}
+    <h1>Trading Card Store</h1>
+
+    <h5>Name:</h5>
+    <p>{{name}}</p>
+
+    <h5>Class:</h5>
+    <p>{{class}}</p>
+
+    <table>
+        <tr>
+            <th>Name</th>
+            <th>Amount</th>
+            <th>Description</th>
+            <th>Price</th>
+            <th>Date Added</th>
+        </tr>
+        
+        {% comment %} Berikut cara memperlihatkan data produk di bawah baris ini {% endcomment %}
+
+        <p>Kamu menyimpan {{total_amount}} item pada aplikasi ini.</p> <!-- Pesan yang ditambahkan -->
+
+        {% for item in items %}
+            <tr>
+                <td>{{item.name}}</td>
+                <td>{{item.amount}}</td>
+                <td>{{item.description}}</td>
+                <td>{{item.price}}</td>
+                <td>{{item.date_added}}</td>
+            </tr>
+        {% endfor %}
+    </table>
+    
+    <br />
+    
+    <a href="{% url 'main:create_item' %}">
+        <button>
+            Add New Item
+        </button>
+    </a>
+    
+{% endblock content %}
 
 

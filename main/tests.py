@@ -1,5 +1,5 @@
 from django.test import TestCase, Client
-from main.models import Product
+from main.models import Item
 
 class mainTest(TestCase):
     # from tutorial 1
@@ -14,7 +14,7 @@ class mainTest(TestCase):
 
     # new testing
     def test_setUp(self):
-        Product.objects.create(name="Holo Charizard", amount="100"
-                               , description="Authentic Charizard carfrom 1999", price="4200")
-        Product.objects.create(name="Pikachu", amount="500"
+        Item.objects.create(name="Holo Charizard", amount="100"
+                               , description="Authentic Charizard card from 1999", price="4200")
+        Item.objects.create(name="Pikachu", amount="500"
                                , description="Mascot of Pokemon", price="10")

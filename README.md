@@ -1,3 +1,9 @@
+
+- [Tugas 2](#tugas-2-pbp)
+- [Tugas 3](#tugas-3-pbp)
+
+
+
 # Tugas 2 PBP
 
 Nama            : Shanahan Danualif Erwin
@@ -129,5 +135,260 @@ Kita tetap bisa menjalankan aplikasi berbasis Django tanpa menggunakan virtual e
 
  - Perbedaan yang dapat terlihat dari ketiga arsitektur ini adalah cara interaksi antara komponen-komponennya. Pada MVC kita menggunakan Controller untuk mengatur alur aplikasi. Sedangkan MVT merupakan turunan dari struktur MVC dimana View yang berperan sebagai jembatan antara Model, Template dan Template berfungsi sebagai tampilan untuk pengguna menggantikan peran View pada MVC, dan Model berfungsi mengolah data mengelola data pada aplikasi seperti pada MVT. Terakhir untuk MVVM yang berperan sebagai jembatan antara Model dan View adalah ViewModelnya, sedangkan Model dan Viewnya berfungsi seperti pada MVC.
 
+# Tugas 3 PBP
 
- 
+1. Apa perbedaan antara form POST dan form GET dalam Django?
+- GET
+    - Biasa digunakan untuk mengirim data-data tidak penting
+    - Untuk mengirim permintaan ke server tertentu guna mendapatkan data atau sumber daya tertentu.
+    - Nilai variabel ditampilkan di URL sehingga user dapat memasukkan nilai variabel baru, tetapi tidak terlalu aman
+- POST
+    - Digunakan untuk mengirim data-data sensitif seperti password
+    - Untuk mengirimkan data ke server guna membuat atau memperbarui data tertentu.
+    - Nilai variabel tidak terekspos di URL jadi lebih aman
+
+
+2. Apa perbedaan utama antara XML, JSON, dan HTML dalam konteks pengiriman data?
+
+- XML (eXtensible Markup Language)
+    - Format file untuk menyimpan data dengan cara yang terstruktur, tetapi tidak efisien
+    - Lebih kompleks dan ukuran filenya lebih besar dari JSON
+    - Pilihan utama untuk mentransmisikan data terstruktur melalui web.
+
+
+- JSON (JavaScript Object Notation)
+    - Format file untuk menyimpan data secara efisien, tetapi tidak rapi untuk dilihat
+    - Sintaks yang lebih ringan dan berukuran lebih kecil.
+    - Cocok sebagai media penyimpanan untuk aplikasi web karena kesederhanaannya.
+
+- HTML (Hypertext Markup Language)
+    - Format file yang digunakan untuk menampilkan konten web
+
+
+3. Mengapa JSON sering digunakan dalam pertukaran data antara aplikasi web modern?
+
+Alasan utamanya adalah format JSON yang lebih sederhana dan ringkas. Hal ini menyebabkan JSON dapat ditransmisikan lebih cepat melalui jaringan serta pemrosesan data menjadi lebih cepat dibanding menggunakan XML. Oleh karena itu, JSON sangat cocok digunakan untuk pertukaran data antara aplikasi web modern
+
+
+
+4. Jelaskan bagaimana cara kamu mengimplementasikan checklist di atas secara step-by-step (bukan hanya sekadar mengikuti tutorial).
+
+
+- Membuat input form untuk menambahkan objek model pada app sebelumnya.
+
+Untuk membuat input form, pertama-tama kita harus membuat direktori yang bernama _templates_ pada direktori root kemudian kita isi dengan berkas base.html. FIle html ini akan menjadi template dasar projek kita dengan kodingan:
+````
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta
+            name="viewport"
+            content="width=device-width, initial-scale=1.0"
+        />
+        {% block meta %}
+        {% endblock meta %}
+    </head>
+
+    <body>
+        {% block content %}
+        {% endblock content %}
+    </body>
+</html>
+````
+
+Selanjutnya, kita akan mengubah _settings.py_ yang berada dalam direktori hanshop. Carilah TEMPLATES kemudian tambahkan __'DIRS': [BASE_DIR / 'templates'],__ agar dapat terhubung dengan base.html yang telah dibuat. Kode akhir akan terlihat seperti ini:
+````
+...
+TEMPLATES = [
+    {
+        'BACKEND': 'django.template.backends.django.DjangoTemplates',
+        'DIRS': [BASE_DIR / 'templates'], # perubahan disini
+        'APP_DIRS': True,
+        ...
+    }
+]
+...
+````
+Bukalah file __main.html__ dalam folder main/templates dan ubahlah kode menjadi berikut:
+````
+{% extends 'base.html' %}
+
+{% block content %}
+    <h1>Trading Card Store</h1>
+
+    <h5>Name:</h5>
+    <p>{{name}}</p>
+
+    <h5>Class:</h5>
+    <p>{{class}}</p>
+{% endblock content %}
+````
+Kode diatas menggunakan __base.html__ sebagai template utama kita. Setelah kita melakukan setup skeleton sebagai kerangka views, kita akan memulai membuat form input data. Buatlah file __forms.py__ dalam direktori main untuk membuat struktur form yang dapat menerima data produk baru. Isi kodingannya:
+````
+from django.forms import ModelForm
+from main.models import Item
+
+class ItemForm(ModelForm):
+    class Meta:
+        model = Item
+        fields = ["name", "amount" , "description", "price"]
+````
+Kemudian, kita membuka file _views.py_ dalam direktori main yang kita tambahkan import modulnya dan kita edit fungsi __create_item__ untuk menambahkan data produk secara otomatis ketika form di-submit. Kodingannya seperti ini:
+````
+from django.http import HttpResponseRedirect
+from main.forms import ProductForm
+from django.urls import reverse
+
+def create_item(request):
+    form = ItemForm(request.POST or None)
+
+    if form.is_valid() and request.method == "POST":
+        form.save()
+        return HttpResponseRedirect(reverse('main:show_main'))
+
+    context = {'form': form}
+    return render(request, "create_item.html", context)
+````
+
+Selanjutnya, kita menambahkan path URL dalam __urls.py__ dalam direktori main. Caranya dengan mengisi kode berikut:
+````
+from main.views import show_main, create_item
+...
+urlpatterns = [
+    ...
+    path('create-item', create_item, name='create_item'),
+]
+````
+Selanjutnya kita akan mengedit file html yang ada di direktori main/templates. Pertama buatalah file baru bernama __create_item.html__ yang diisi dengan:
+````
+{% extends 'base.html' %} 
+
+{% block content %}
+<h1>Add New Item</h1>
+
+<form method="POST">
+    {% csrf_token %}
+    <table>
+        {{ form.as_table }}
+        <tr>
+            <td></td>
+            <td>
+                <input type="submit" value="Add Item"/>
+            </td>
+        </tr>
+    </table>
+</form>
+
+{% endblock %}
+````
+Kode ini digunakan agar pengguna dapat mengisi form dan di-submit sesuai fields yang sudah dibuat pada model. Setelah itu, bukalah main.html yang berada dalam direktori main/templates yang kita tambahkan dengan kode:
+````
+...
+<table>
+    <tr>
+        <th>Name</th>
+        <th>Price</th>
+        <th>Description</th>
+        <th>Date Added</th>
+    </tr>
+
+    {% comment %} Berikut cara memperlihatkan data produk di bawah baris ini {% endcomment %}
+
+    {% for product in products %}
+        <tr>
+            <td>{{product.name}}</td>
+            <td>{{product.price}}</td>
+            <td>{{product.description}}</td>
+            <td>{{product.date_added}}</td>
+        </tr>
+    {% endfor %}
+</table>
+
+<br />
+
+<a href="{% url 'main:create_product' %}">
+    <button>
+        Add New Product
+    </button>
+</a>
+
+{% endblock content %}
+````
+Kode ini akan menampilkan data produk dalam bentuk tabel serta tombol "Add New Item" yang kalau diklik akan redirect user ke halaman form.
+
+
+- Tambahkan 5 fungsi views untuk melihat objek yang sudah ditambahkan dalam format HTML, XML, JSON, XML by ID, dan JSON by ID.
+Sebelum kita membuat fungsi views yang kita inginkan, importlah modul-modul ini terlebih dahulu karena dibutuhkan oleh fungsi views yang kita ingin buat dalam file views.py dalam folder main
+````
+from django.shortcuts import render
+from main.models import Item
+from django.http import HttpResponse
+from django.core import serializers
+````
+Selanjutnya kita akan memulai membuat fungsi views yang kita inginkan. Kita akan mengedit __views.py__ dalam direktori main untuk membuat fungsi-fungsinya. Untuk melihat objek yang sudah kita tambahkan, ubahlah kode show_main dengan menambahkan __items = Item.objects.all()__ yang dapat mengambil seluruh object Item yang tersimpan di database. Kode fungsinya akan seperti ini:
+````
+def show_main(request):
+    items = Item.objects.all()
+
+    context = {
+        'name': 'Shanahan Danualif Erwin', # Nama kamu
+        'class': 'PBP F', # Kelas PBP kamu
+        'items': items
+    }
+
+    return render(request, "main.html", context)
+````
+Untuk melihat objek yang kita inginkan dalam format XML, buatlah fungsi show_xml seperti berikut:
+````
+def show_xml(request):
+    data = Item.objects.all()
+    return HttpResponse(serializers.serialize("xml", data), content_type="application/xml")
+````
+Jika ingin melihat data-data yang kita tambahkan berdasarkan id yang kita inginkan dalam format XML, tambahkan fungsi show_xml_by_id seperti ini:
+````
+def show_xml_by_id(request, id):
+    data = Item.objects.filter(pk=id)
+    return HttpResponse(serializers.serialize("xml", data), content_type="application/xml")
+````
+Untuk melihat objek yang kita inginkan dalam format JSON, buatlah fungsi show_xml seperti berikut:
+````
+def show_json(request):
+    data = Item.objects.all()
+    return HttpResponse(serializers.serialize("json", data), content_type="application/json")
+````
+
+Jika ingin melihat data-data yang kita tambahkan berdasarkan id yang kita inginkan dalam format JSON, tambahkan fungsi show_json_by_id seperti ini:
+````
+def show_json_by_id(request, id):
+    data = Item.objects.filter(pk=id)
+    return HttpResponse(serializers.serialize("json", data), content_type="application/json")
+````
+
+- Membuat routing URL untuk masing-masing views yang telah ditambahkan pada poin 2.
+
+Bukalah __urls.py__ yang berada dalam direktori main dan tambahkan pathing berikut:
+````
+from main.views import show_main, create_item, show_xml, show_json, show_xml_by_id, show_json_by_id
+
+app_name = 'main'
+
+urlpatterns = [
+    path('', show_main, name='show_main'),
+    path('xml/', show_xml, name='show_xml'), 
+    path('xml/<int:id>/', show_xml_by_id, name='show_xml_by_id'),
+    path('json/', show_json, name='show_json'),
+    path('json/<int:id>/', show_json_by_id, name='show_json_by_id'), 
+    ....
+]
+````
+
+- Mengakses kelima URL di poin 2 menggunakan Postman, membuat screenshot dari hasil akses URL pada Postman, dan menambahkannya ke dalam README.md.
+
+![Alt text](image-1.png)
+![Alt text](image-2.png)
+![Alt text](image-3.png)
+![Alt text](image-4.png)
+![Alt text](image-5.png)
+![Alt text](image-6.png)
