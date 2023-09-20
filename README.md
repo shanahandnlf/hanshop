@@ -162,7 +162,7 @@ Kita tetap bisa menjalankan aplikasi berbasis Django tanpa menggunakan virtual e
     - Cocok sebagai media penyimpanan untuk aplikasi web karena kesederhanaannya.
 
 - HTML (Hypertext Markup Language)
-    - Format file yang digunakan untuk menampilkan konten web
+    - Format file yang digunakan untuk menampilkan konten web. Jadi HTML ini khusus untuk menampilkan tampilan web ke mata pengguna
 
 
 3. Mengapa JSON sering digunakan dalam pertukaran data antara aplikasi web modern?
