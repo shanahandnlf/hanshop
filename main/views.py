@@ -113,9 +113,11 @@ def add_item(request, id):
 
 def subtract_item(request, id):
     item = Item.objects.filter(user=request.user).filter(pk=id).first()
-    if item.amount > 0:
+    if item.amount > 1:
         item.amount -= 1
         item.save()
+    elif item.amount == 1:
+        item.delete()
     return HttpResponseRedirect(reverse('main:show_main'))
 
 def delete_item(request, id):

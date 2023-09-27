@@ -632,7 +632,7 @@ def show_main(request):
         'name': request.user.username, # Nama kamu
     ....
 ````
-
+Kemudian lakukanlah migrasi dengan menjalankan 'python manage.py makemigrations' diikuti dengan 'python manage.py migrate'
 
     -Menampilkan detail informasi pengguna yang sedang logged in seperti username dan menerapkan cookies seperti last login pada halaman utama aplikasi.
 
