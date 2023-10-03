@@ -55,6 +55,7 @@ def show_json_by_id(request, id):
     data = Item.objects.filter(pk=id)
     return HttpResponse(serializers.serialize("json", data), content_type="application/json")
 
+@login_required(login_url='/login')
 def create_item(request):
     form = ItemForm(request.POST or None)
 
@@ -101,6 +102,9 @@ def logout_user(request):
     return response
 
 
+
+
+
 from django.shortcuts import render, redirect
 from .models import Item
 
@@ -125,3 +129,20 @@ def delete_item(request, id):
     if item.amount > 0:
         item.delete()
     return HttpResponseRedirect(reverse('main:show_main'))
+
+def edit_item(request, id):
+    # Get product berdasarkan ID
+    item = Item.objects.get(pk = id)
+
+    # Set product sebagai instance dari form
+    form = ItemForm(request.POST or None, instance=item)
+
+    if form.is_valid() and request.method == "POST":
+        # Simpan form dan kembali ke halaman awal
+        form.save()
+        return HttpResponseRedirect(reverse('main:show_main'))
+
+    context = {'form': form}
+    return render(request, "edit_item.html", context)
+
+

@@ -1,8 +1,16 @@
 {% extends 'base.html' %}
 
-{% block content %}
-    <h1>Trading Card Store</h1>
+<head>
+    <style>
+        /* Add the CSS for styling the last row here */
+        .last-row {
+            background-color: #ffcccb !important; /* Set the background color for the last row */
+            color: #333 !important;/* Set the text color for the last row */
+        }
+    </style>  
+</head>
 
+{% block content %}
     <h5>Name:</h5>
     <p>{{name}}</p>
 
@@ -10,60 +18,48 @@
     <p>{{class}}</p>
 
     <table>
-        <tr>
-            <th>Name</th>
-            <th>Amount</th>
-            <th>Description</th>
-            <th>Price</th>
-            <th>Date Added</th>
-        </tr>
         
         {% comment %} Berikut cara memperlihatkan data produk di bawah baris ini {% endcomment %}
 
         <p>Kamu menyimpan {{total_amount}} item pada aplikasi ini.</p> <!-- Pesan yang ditambahkan -->
 
-        {% for item in items %}
-            <tr>
-                <td>{{item.name}}</td>
-                <td>{{item.amount}}</td>
-                <td>{{item.description}}</td>
-                <td>{{item.price}}</td>
-                <td>{{item.date_added}}</td>
-                <td>
-                    <a href="{% url 'main:add_item' item.id %}">
-                        <button>
-                            Tambah
-                        </button>
-                    </a>
-                    <a href="{% url 'main:subtract_item' item.id %}">
-                        <button>
-                            Kurang
-                        </button>
-                    </a>
-                    <a href="{% url 'main:delete_item' item.id %}">
-                        <button>
-                            Hapus
-                        </button>
-                    </a>
-                </td>
-
-            </tr>
-        {% endfor %}
-    </table>
-    
+        <table class="table table-striped table-bordered">
+            <thead>
+                <tr>
+                    <th>Name</th>
+                    <th>Amount</th>
+                    <th>Description</th>
+                    <th>Price</th>
+                    <th>Date Added</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for item in items %}
+                <tr {% if forloop.last %}class="last-item"{% endif %}>
+                    <td>{{ item.name }}</td>
+                    <td>{{ item.amount }}</td>
+                    <td>{{ item.description }}</td>
+                    <td>${{ item.price }}</td>
+                    <td>{{ item.date_added|date:"Y-m-d" }}</td>
+                    <td>
+                        <a href="{% url 'main:add_item' item.id %}" class="btn btn-success btn-sm">Tambah</a>
+                        <a href="{% url 'main:subtract_item' item.id %}" class="btn btn-warning btn-sm">Kurang</a>
+                        <a href="{% url 'main:delete_item' item.id %}" class="btn btn-danger btn-sm">Hapus</a>
+                        <a href="{% url 'main:edit_item' item.id %}" class="btn btn-primary btn-sm">Edit</a>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
     <br />
     
-    <a href="{% url 'main:create_item' %}">
+    <!-- <a href="{% url 'main:create_item' %}">
         <button>
             Add New Item
         </button>
-    </a>
-
-    <a href="{% url 'main:logout' %}">
-        <button>
-            Logout
-        </button>
-    </a>
+    </a> -->
+    
 
     <h5>Sesi terakhir login: {{ last_login }}</h5>
     

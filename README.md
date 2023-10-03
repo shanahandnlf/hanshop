@@ -692,3 +692,257 @@ Kemudian buka berkas main.html dalam main/templates dan tambahkan kode ini untuk
 <h5>Sesi terakhir login: {{ last_login }}</h5>
 ...
 ````
+
+# Tugas 5 PBP
+
+- Jelaskan manfaat dari setiap element selector dan kapan waktu yang tepat untuk menggunakannya.
+    - Element selector: menargetkan elemen HTML berdasarkan nama elemen itu sendiri. Digunakan saat ingin menerapkan style semua elemen tertentu
+    - ID selector: menggunakan atribut ID unik dari elemen HTML untuk memilih elemen tertentu. Cocok digunakan untuk menerapkan style pada elemen dengan ID unik tersebut
+    - Class selector: menargetkan elemen HTML dengan atribut kelas tertentu. Cocok digunakan untuk memberi style ke elemen di suatu kelas
+
+- Jelaskan HTML5 Tag yang kamu ketahui.
+
+<!DOCTYPE html> biasanya ditempatkan di bagian paling atas untuk menunjukkan penggunaan HTML5 pada halaman.
+
+Tag <html> digunakan untuk mengawali dan mengelilingi semua konten HTML
+
+Tag <head> digunakan untuk informasi umum tentang halaman, seperti judul.
+
+Tag <meta> digunakan untuk menyisipkan informasi tambahan tentang website.
+
+Tag <title> digunakan untuk menentukan judul yang akan ditampilkan di tab browser.
+
+Tag <link> digunakan untuk menghubungkan halaman HTML dengan berkas eksternal, misalnya file CSS.
+
+Tag <style> digunakan agar kode CSS memformat tampilan halaman
+
+Tag <script> untuk menyertakan kode JavaScript.
+
+Tag <body> mengelilingi konten utama halaman web, termasuk teks, gambar, dan tag lain yang akan ditampilkan kepada pengguna.
+
+Tag judul seperti <h1>, <h2>, hingga <h6> digunakan untuk menandai tingkat prioritas judul, dengan <h1> memiliki prioritas tertinggi dan <h6> memiliki prioritas terendah.
+
+Tag <p> digunakan untuk menampilkan paragraf
+
+Tag <a> digunakan untuk membuat tautan (hyperlink) ke halaman web lain
+
+Tag <img> digunakan untuk menampilkan gambar di halaman web
+
+Tag <div> digunakan untuk mengelompokkan sejumlah kode HTML ke dalam blok yang dapat diubah tampilannya dengan CSS
+
+Tag <form> digunakan untuk membuat formulir yang memungkinkan pengguna untuk mengirim data ke server.
+
+
+- Jelaskan perbedaan antara margin dan padding.
+Margin 
+Margin menunjuk pada ruang di luar elemen HTML dan mengontrol jarak antara elemen dengan elemen lain di sekitarnya. Kalau padding menunjuk pada ruang yang berada dalam elemen HTML nya segingga mengontrol jarak antara konten elemen dengan batas elemen itu sendiri
+
+- Jelaskan perbedaan antara framework CSS Tailwind dan Bootstrap. Kapan sebaiknya kita menggunakan Bootstrap daripada Tailwind, dan sebaliknya?
+
+Bootstrap merupakan framework CSS yang komponennya sudah built-in, seperti sebuah navbar, card, dan form. User dapat mengkustomisasi komponen tersebut tapi tidak sebebas Tailwind
+
+Tailwind merupakan framework CSS yang membangun tampilan dengan menggabungkan kelas-kelas utilitas yang telah didefinisikan sebelumnya. Tailwind memberi tingkat kustomisasi yang tinggi yang sangat detail sesuai kebutuhan user
+
+Sebaiknya kita menggunakan bootstrap jika ingin membuat website dengan kustomisasi yang tidak terlalu mendalam. Bootstrap juga cocok digunakan untuk pemula karena banyak kompinen built-in nya. Sedangkan, tailwind sebaiknya dipakai jika website ingin dikustomisasi lebih mendalam, tetapi akan membutuhkan waktu memelajari tailwind untuk menggunakannya secara maksimal
+
+
+- Jelaskan bagaimana cara kamu mengimplementasikan checklist di atas secara step-by-step (bukan hanya sekadar mengikuti tutorial).
+
+    -  Kustomisasi desain pada templat HTML yang telah dibuat pada Tugas 4 dengan menggunakan CSS atau CSS framework (seperti Bootstrap, Tailwind, Bulma) dengan ketentuan sebagai berikut
+
+Bukalah folder templates yang berada pada root directory dan edit kode dalam base.html seperti ini untuk menambahkan bootstrap dan CSS
+
+````
+....
+ {% block meta %}
+            <meta charset="UTF-8" />
+            <meta name="viewport" content="width=device-width, initial-scale=1">
+        {% endblock meta %}
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
+        <script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha384-KyZXEAg3QhqLMpG8r+J4jsl5c9zdLKaUk5Ae5f5b1bw6AUn5f5v8FZJoMxm6f5cH1" crossorigin="anonymous"></script>
+        <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js" integrity="sha384-I7E8VVD/ismYTF4hNIPjVp/Zjvgyol6VFvRkX/vR+Vc4jQkC+hVqc2pM8ODewa9r" crossorigin="anonymous"></script>
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.min.js" integrity="sha384-BBtl+eGJRgqQAUMxJ7pMwbEyER4l1g+O15P+16Ep7Q9Q+zqX6gSbd85u4mG4QzX+" crossorigin="anonymous"></script>
+    </head>
+````
+
+   - Kustomisasi halaman login, register, dan tambah inventori semenarik mungkin.
+
+Buatlah navbar dan margin dengan menambahkan kode ini pada base.html yang berada dalam direktori templates pada root agar file HTML lain yang memakai template dari base.html ini mendapatkan navbar dan margin
+
+````
+<body>
+       {% load static %}
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta
+            name="viewport"
+            content="width=device-width, initial-scale=1.0"
+        />
+        {% block meta %}
+            <meta charset="UTF-8" />
+            <meta name="viewport" content="width=device-width, initial-scale=1">
+        {% endblock meta %}
+        <style>
+            .content-wrapper {
+                margin: 20px;
+            }
+        </style>
+
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
+        <script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha384-KyZXEAg3QhqLMpG8r+J4jsl5c9zdLKaUk5Ae5f5b1bw6AUn5f5v8FZJoMxm6f5cH1" crossorigin="anonymous"></script>
+        <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js" integrity="sha384-I7E8VVD/ismYTF4hNIPjVp/Zjvgyol6VFvRkX/vR+Vc4jQkC+hVqc2pM8ODewa9r" crossorigin="anonymous"></script>
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.min.js" integrity="sha384-BBtl+eGJRgqQAUMxJ7pMwbEyER4l1g+O15P+16Ep7Q9Q+zqX6gSbd85u4mG4QzX+" crossorigin="anonymous"></script>
+    </head>
+
+    <body>
+        <nav class="navbar navbar-expand-lg navbar-light bg-light">
+            <div class="container-fluid">
+            <a class="navbar-brand" href="{% url 'main:show_main' %}">
+                <b>Welcome to Han Shop</b>
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                <li class="nav-item">
+                    <a class="nav-link active" aria-current="page" href="{% url 'main:create_item' %}">Add New Item</a>
+                </li>
+                </ul>
+            </div>
+            <a href="{% url 'main:logout' %}" class="btn btn-danger">
+                Logout
+                </a>
+            </div>
+        </nav>
+        <div class="content-wrapper">
+            {% block content %}
+        
+            {% endblock content %}
+        </div>
+    </body>
+</html>
+        {% block content %}
+````
+
+pada fungsi create_item di views.py dalam folder main ubahlah kode menjadi seperti ini agar hanya diakses jika sudah login
+````
+@login_required(login_url='/login')
+def create_item(request):
+    form = ItemForm(request.POST or None)
+
+    if form.is_valid() and request.method == "POST":
+        item = form.save(commit=False)
+        item.user = request.user
+        item.save()
+        return HttpResponseRedirect(reverse('main:show_main'))
+
+    context = {'form': form}
+    return render(request, "create_item.html", context)
+````
+buatlah fungsi edit_item dengan menambahkan kode ini di views.py direktori main
+````
+def edit_item(request, id):
+    # Get product berdasarkan ID
+    item = Item.objects.get(pk = id)
+
+    # Set product sebagai instance dari form
+    form = ItemForm(request.POST or None, instance=item)
+
+    if form.is_valid() and request.method == "POST":
+        # Simpan form dan kembali ke halaman awal
+        form.save()
+        return HttpResponseRedirect(reverse('main:show_main'))
+
+    context = {'form': form}
+    return render(request, "edit_item.html", context)
+````
+
+Kemudian lakukan routing dengan menambahkan kode ini pada urls.py folder main
+````
+urlpatterns = [
+    path('edit-item/<int:id>/', edit_item, name='edit_item'),
+]
+````
+Buat berkas edit_item.html di main/templates dengan kode ini
+````
+{% extends 'base.html' %}
+
+{% load static %}
+
+{% block content %}
+
+<h1>Edit Product</h1>
+
+<form method="POST">
+    {% csrf_token %}
+    <table>
+        {{ form.as_table }}
+        <tr>
+            <td></td>
+            <td>
+                <input type="submit" value="Edit Item"/>
+            </td>
+        </tr>
+    </table>
+</form>
+
+{% endblock %}
+````
+
+
+   - Kustomisasi halaman daftar inventori menjadi lebih berwarna maupun menggunakan approach lain seperti menggunakan Card.
+Pada berkas main.html dalam main/templates, editlah table seperti ini agar tabelnya ada border serta menambahkan warna pada tombol-tombol
+````
+<table class="table table-striped table-bordered">
+            <tbody>
+                {% for item in items %}
+                <tr>
+                    <td>{{ item.name }}</td>
+                    <td>{{ item.amount }}</td>
+                    <td>{{ item.description }}</td>
+                    <td>${{ item.price }}</td>
+                    <td>{{ item.date_added|date:"Y-m-d" }}</td>
+                    <td>
+                        <a href="{% url 'main:add_item' item.id %}" class="btn btn-success btn-sm">Tambah</a>
+                        <a href="{% url 'main:subtract_item' item.id %}" class="btn btn-warning btn-sm">Kurang</a>
+                        <a href="{% url 'main:delete_item' item.id %}" class="btn btn-danger btn-sm">Hapus</a>
+                        <a href="{% url 'main:edit_item' item.id %}" class="btn btn-primary btn-sm">Edit</a>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    <br />
+````
+
+bukalah base.html untuk mengubah font menjadi ontserrat pada seluruh proyek Django
+````
+...
+   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600&display=swap">
+        <style>
+            .content-wrapper {
+                margin: 20px;
+            }
+            .custom-font {
+                font-family: 'Montserrat', sans-serif; /* Use Montserrat font with a fallback to a generic sans-serif font. */
+                font-size: 16px;
+                color: black;
+            }
+        </style>
+...
+````
+
+````
+<div class="content-wrapper custom-font">
+            {% block content %}
+        
+            {% endblock content %}
+        </div>
+````
+
+
+
+
