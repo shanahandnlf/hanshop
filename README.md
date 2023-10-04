@@ -894,31 +894,40 @@ Buat berkas edit_item.html di main/templates dengan kode ini
 
 
    - Kustomisasi halaman daftar inventori menjadi lebih berwarna maupun menggunakan approach lain seperti menggunakan Card.
-Pada berkas main.html dalam main/templates, editlah table seperti ini agar tabelnya ada border serta menambahkan warna pada tombol-tombol
+Pada berkas main.html dalam main/templates, editlah table seperti ini agar tabelnya dibuat seperti cards serta menambahkan warna pada tombol-tombol
 ````
-<table class="table table-striped table-bordered">
-            <tbody>
-                {% for item in items %}
-                <tr>
-                    <td>{{ item.name }}</td>
-                    <td>{{ item.amount }}</td>
-                    <td>{{ item.description }}</td>
-                    <td>${{ item.price }}</td>
-                    <td>{{ item.date_added|date:"Y-m-d" }}</td>
-                    <td>
-                        <a href="{% url 'main:add_item' item.id %}" class="btn btn-success btn-sm">Tambah</a>
-                        <a href="{% url 'main:subtract_item' item.id %}" class="btn btn-warning btn-sm">Kurang</a>
-                        <a href="{% url 'main:delete_item' item.id %}" class="btn btn-danger btn-sm">Hapus</a>
-                        <a href="{% url 'main:edit_item' item.id %}" class="btn btn-primary btn-sm">Edit</a>
-                    </td>
-                </tr>
-                {% endfor %}
-            </tbody>
-        </table>
-    <br />
+     <p>Kamu menyimpan {{total_amount}} item pada aplikasi ini.</p> 
+        <div class="row">
+            {% for item in items %}
+                <div class="col-md-4 mb-3{% if forloop.last %} last-card{% endif %}">
+                    <div class="card custom-card">
+                        <div class="card-body">
+                            <h5 class="card-title">{{ item.name }}</h5>
+                            <p class="card-text">Amount: {{ item.amount }}</p>
+                            <p class="card-text">Description: {{ item.description }}</p>
+                            <p class="card-text">Price: ${{ item.price }}</p>
+                            <p class="card-text">Date Added: {{ item.date_added|date:"Y-m-d" }}</p>
+                            <a href="{% url 'main:add_item' item.id %}" class="btn btn-success btn-sm">Tambah</a>
+                            <a href="{% url 'main:subtract_item' item.id %}" class="btn btn-warning btn-sm">Kurang</a>
+                            <a href="{% url 'main:delete_item' item.id %}" class="btn btn-danger btn-sm">Hapus</a>
+                            <a href="{% url 'main:edit_item' item.id %}" class="btn btn-primary btn-sm">Edit</a>
+                        </div>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+
+        <style>
+            .custom-card {
+                height: 100%; /* Set a fixed height for all cards */
+            }
+            .last-card .card {
+                background-color: goldenrod;
+            }
+        </style>
 ````
 
-bukalah base.html untuk mengubah font menjadi ontserrat pada seluruh proyek Django
+bukalah base.html untuk mengubah font menjadi Montserrat pada seluruh proyek Django
 ````
 ...
    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600&display=swap">
@@ -934,9 +943,8 @@ bukalah base.html untuk mengubah font menjadi ontserrat pada seluruh proyek Djan
         </style>
 ...
 ````
-
 ````
-<div class="content-wrapper custom-font">
+        <div class="content-wrapper custom-font">
             {% block content %}
         
             {% endblock content %}
