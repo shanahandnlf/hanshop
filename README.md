@@ -892,7 +892,8 @@ Buat berkas edit_item.html di main/templates dengan kode ini
 
 
    - Kustomisasi halaman daftar inventori menjadi lebih berwarna maupun menggunakan approach lain seperti menggunakan Card.
-Pada berkas main.html dalam main/templates, editlah table seperti ini agar tabelnha dibuat serta menambahkan warna pada tombol-tombol. Saya mengimplementasikan table bordered dari bootstrap
+
+Pada berkas main.html dalam main/templates, editlah table seperti ini agar tabelnya dibuat serta menambahkan warna pada tombol-tombol. Saya mengimplementasikan table bordered dari bootstrap
 ````
         <p>Kamu menyimpan {{ total_amount }} item pada aplikasi ini.</p> 
         <table class="table table-bordered">
