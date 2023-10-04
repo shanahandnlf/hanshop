@@ -894,37 +894,38 @@ Buat berkas edit_item.html di main/templates dengan kode ini
 
 
    - Kustomisasi halaman daftar inventori menjadi lebih berwarna maupun menggunakan approach lain seperti menggunakan Card.
-Pada berkas main.html dalam main/templates, editlah table seperti ini agar tabelnya dibuat seperti cards serta menambahkan warna pada tombol-tombol
+Pada berkas main.html dalam main/templates, editlah table seperti ini agar tabelnha dibuat serta menambahkan warna pada tombol-tombol. Saya mengimplementasikan table bordered dari bootstrap
 ````
-     <p>Kamu menyimpan {{total_amount}} item pada aplikasi ini.</p> 
-        <div class="row">
-            {% for item in items %}
-                <div class="col-md-4 mb-3{% if forloop.last %} last-card{% endif %}">
-                    <div class="card custom-card">
-                        <div class="card-body">
-                            <h5 class="card-title">{{ item.name }}</h5>
-                            <p class="card-text">Amount: {{ item.amount }}</p>
-                            <p class="card-text">Description: {{ item.description }}</p>
-                            <p class="card-text">Price: ${{ item.price }}</p>
-                            <p class="card-text">Date Added: {{ item.date_added|date:"Y-m-d" }}</p>
+        <p>Kamu menyimpan {{ total_amount }} item pada aplikasi ini.</p> 
+        <table class="table table-bordered">
+            <thead>
+                <tr>
+                    <th>Name</th>
+                    <th>Amount</th>
+                    <th>Description</th>
+                    <th>Price</th>
+                    <th>Date Added</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for item in items %}
+                    <tr class="{% if forloop.last %}table-warning{% endif %}">
+                        <td>{{ item.name }}</td>
+                        <td>{{ item.amount }}</td>
+                        <td>{{ item.description }}</td>
+                        <td>${{ item.price }}</td>
+                        <td>{{ item.date_added|date:"Y-m-d" }}</td>
+                        <td>
                             <a href="{% url 'main:add_item' item.id %}" class="btn btn-success btn-sm">Tambah</a>
                             <a href="{% url 'main:subtract_item' item.id %}" class="btn btn-warning btn-sm">Kurang</a>
                             <a href="{% url 'main:delete_item' item.id %}" class="btn btn-danger btn-sm">Hapus</a>
                             <a href="{% url 'main:edit_item' item.id %}" class="btn btn-primary btn-sm">Edit</a>
-                        </div>
-                    </div>
-                </div>
-            {% endfor %}
-        </div>
-
-        <style>
-            .custom-card {
-                height: 100%; /* Set a fixed height for all cards */
-            }
-            .last-card .card {
-                background-color: goldenrod;
-            }
-        </style>
+                        </td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
 ````
 
 bukalah base.html untuk mengubah font menjadi Montserrat pada seluruh proyek Django
