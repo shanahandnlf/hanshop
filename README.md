@@ -720,8 +720,6 @@ Tag <script> untuk menyertakan kode JavaScript.
 
 Tag <body> mengelilingi konten utama halaman web, termasuk teks, gambar, dan tag lain yang akan ditampilkan kepada pengguna.
 
-Tag judul seperti <h1>, <h2>, hingga <h6> digunakan untuk menandai tingkat prioritas judul, dengan <h1> memiliki prioritas tertinggi dan <h6> memiliki prioritas terendah.
-
 Tag <p> digunakan untuk menampilkan paragraf
 
 Tag <a> digunakan untuk membuat tautan (hyperlink) ke halaman web lain
