@@ -11,8 +11,9 @@
         
         {% comment %} Berikut cara memperlihatkan data produk di bawah baris ini {% endcomment %}
 
-        <p>Kamu menyimpan {{ total_amount }} item pada aplikasi ini.</p> 
-        <table class="table table-bordered">
+        <!-- <p>Kamu menyimpan {{ total_amount }} item pada aplikasi ini.</p>  -->
+
+        <!-- <table class="table table-bordered">
             <thead>
                 <tr>
                     <th>Name</th>
@@ -40,10 +41,109 @@
                     </tr>
                 {% endfor %}
             </tbody>
-        </table>
+        </table> -->
+
+        <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h1 class="modal-title fs-5" id="exampleModalLabel">Add New Item</h1>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <form id="form" onsubmit="return false;">
+                            {% csrf_token %}
+                            <div class="mb-3">
+                                <label for="name" class="col-form-label">Name:</label>
+                                <input type="text" class="form-control" id="name" name="name"></input>
+                            </div>
+                            <div class="mb-3">
+                                <label for="amount" class="col-form-label">Amount:</label>
+                                <input type="number" class="form-control" id="amount" name="amount"></input>
+                            </div>
+                            <div class="mb-3">
+                                <label for="description" class="col-form-label">Description:</label>
+                                <textarea class="form-control" id="description" name="description"></textarea>
+                            </div>
+                            <div class="mb-3">
+                                <label for="price" class="col-form-label">Price:</label>
+                                <input type="number" class="form-control" id="price" name="price"></input>
+                            </div>
+                        </form>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                        <button type="button" class="btn btn-primary" id="button_add" data-bs-dismiss="modal">Add Product</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="container">
+            <div class="row" id="product_cards"></div>
+        </div>
+        <!-- <table id="product_table"></table> -->
+
+        <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal" style="margin-bottom: 10px;">Add Item by AJAX</button>
+
+        
+
     
 
     <h5>Sesi terakhir login: {{ last_login }}</h5>
+
+    <script>
+        async function getItems() {
+            return fetch("{% url 'main:get_item_json' %}").then((res) => res.json())
+        }
+
+        async function refreshItems() {
+            const products = await getItems();
+            const productCardsContainer = document.getElementById("product_cards");
+            productCardsContainer.innerHTML = "";
+
+            products.forEach((item) => {
+                const card = document.createElement("div");
+                card.classList.add("col-lg-4", "col-md-6", "mb-4");
+
+                card.innerHTML = `
+                <div class="card">
+                    <div class="card-body">
+                    <h5 class="card-title">${item.fields.name}</h5>
+                    <p class="card-text">${item.fields.description}</p>
+                    <p class="card-text">Price: $${item.fields.price}</p>
+                    <p class="card-text">Date Added: ${item.fields.date_added}</p>
+                    <a><button onclick="deleteItem(${item.pk})" class="btn btn-danger" type="submit">Delete</button></a>
+                    </div>
+                </div>
+                `;
+                productCardsContainer.appendChild(card);
+            });
+            }
+
+        refreshItems();
+
+        function addItem() {
+                fetch("{% url 'main:add_item_ajax' %}", {
+                    method: "POST",
+                    body: new FormData(document.querySelector('#form'))
+                }).then(refreshItems)
+
+                document.getElementById("form").reset()
+                return false
+        }
+        
+        document.getElementById("button_add").onclick = addItem
+
+        async function deleteItem(id){
+            let url="{% url 'main:delete_item_ajax' '0' %}";
+            url=url.replace('0',id);
+            const response =await fetch(url,{
+                method: "DELETE",
+            }).then(refreshItems); 
+        } 
+        
+    </script>
     
 {% endblock content %}
 
