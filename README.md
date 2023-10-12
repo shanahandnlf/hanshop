@@ -2,6 +2,8 @@
 - [Tugas 2](#tugas-2-pbp)
 - [Tugas 3](#tugas-3-pbp)
 - [Tugas 4](#tugas-4-pbp)
+- [Tugas 5](#tugas-5-pbp)
+- [Tugas 6](#tugas-6-pbp)
 
 
 
@@ -951,7 +953,7 @@ bukalah base.html untuk mengubah font menjadi Montserrat pada seluruh proyek Dja
         </div>
 ````
 
-# PBP Tugas 6
+# Tugas 6 PBP
 
 - Jelaskan perbedaan antara asynchronous programming dengan synchronous programming.
 
