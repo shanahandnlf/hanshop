@@ -984,17 +984,6 @@ Pendapat: Fetch API lebih baik digunakan untuk aplikasi modern karena lebih ring
 
 - Jelaskan bagaimana cara kamu mengimplementasikan checklist di atas secara step-by-step (bukan hanya sekadar mengikuti tutorial).
 
-Bukalah views.py dalam main dan tambahkan kode ini:
-````
-def get_item_json(request):
-    item = Item.objects.filter(user=request.user)
-    return HttpResponse(serializers.serialize('json', item))
-````
-
-Kemudian lakukan routing dengan membuka urls.py kemudian tambahkan kode ini di urlpatterns
-````
-    path('get-item/', get_item_json, name='get_item_json'),
-````
 
 # AJAX GET
 
@@ -1037,8 +1026,8 @@ Bukalah views.py dalam main dan tambahkan kode ini:
     
 ````
 def get_item_json(request):
-item = Item.objects.filter(user=request.user)
-return HttpResponse(serializers.serialize('json', item))
+    item = Item.objects.filter(user=request.user)
+    return HttpResponse(serializers.serialize('json', item))
 
 ````
 Kemudian lakukan routing dengan membuka urls.py kemudian tambahkan kode ini di urlpatterns
