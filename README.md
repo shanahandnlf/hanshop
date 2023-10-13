@@ -1158,7 +1158,10 @@ Kemudian tambahkan kode ini di main.html dalam <script> </script> untuk menambah
 Buatlah fungsi refreshItems() di main.html dalam <script> </script> untuk menampilkan daftar item terbaru tanpa reload halaman utama secara keseluruhan.
 ````
  async function refreshItems() {
+            
             const products = await getItems();
+
+
             const productCardsContainer = document.getElementById("product_cards");
             productCardsContainer.innerHTML = "";
 
@@ -1170,15 +1173,32 @@ Buatlah fungsi refreshItems() di main.html dalam <script> </script> untuk menamp
                 <div class="card">
                     <div class="card-body">
                     <h5 class="card-title">${item.fields.name}</h5>
+                    <p class="card-text">Amount: ${item.fields.amount}</p>
                     <p class="card-text">${item.fields.description}</p>
                     <p class="card-text">Price: $${item.fields.price}</p>
                     <p class="card-text">Date Added: ${item.fields.date_added}</p>
+                    <a><button id="add-${item.pk}" class="btn btn-success  " type="submit">Add</button></a>
+                    <a><button id="subtract-${item.pk}" class="btn btn-warning  " type="submit">Subtract</button></a>
+                    <a><button id="edit-${item.pk}" class="btn btn-primary" type="submit">Edit</button></a>
                     <a><button onclick="deleteItem(${item.pk})" class="btn btn-danger" type="submit">Delete</button></a>
                     </div>
                 </div>
                 `;
                 productCardsContainer.appendChild(card);
             });
+
+            products.forEach((item) => {
+                document.getElementById(`edit-${item.pk}`).onclick = () => {
+                    window.location.href = `edit-item/${item.pk}`
+                }
+                document.getElementById(`add-${item.pk}`).onclick = () => {
+                    fetch(`add-item/${item.pk}`).then(refreshItems)
+                }
+                document.getElementById(`subtract-${item.pk}`).onclick = () => {
+                    fetch(`subtract-item/${item.pk}`).then(refreshItems)
+                }
+                })
+            
             }
 
         refreshItems();
