@@ -11,37 +11,9 @@
         
         {% comment %} Berikut cara memperlihatkan data produk di bawah baris ini {% endcomment %}
 
-        <!-- <p>Kamu menyimpan {{ total_amount }} item pada aplikasi ini.</p>  -->
+        <p>Kamu menyimpan {{ total_amount }} item pada aplikasi ini.</p> 
 
-        <!-- <table class="table table-bordered">
-            <thead>
-                <tr>
-                    <th>Name</th>
-                    <th>Amount</th>
-                    <th>Description</th>
-                    <th>Price</th>
-                    <th>Date Added</th>
-                    <th>Actions</th>
-                </tr>
-            </thead>
-            <tbody>
-                {% for item in items %}
-                    <tr class="{% if forloop.last %}table-warning{% endif %}">
-                        <td>{{ item.name }}</td>
-                        <td>{{ item.amount }}</td>
-                        <td>{{ item.description }}</td>
-                        <td>${{ item.price }}</td>
-                        <td>{{ item.date_added|date:"Y-m-d" }}</td>
-                        <td>
-                            <a href="{% url 'main:add_item' item.id %}" class="btn btn-success btn-sm">Tambah</a>
-                            <a href="{% url 'main:subtract_item' item.id %}" class="btn btn-warning btn-sm">Kurang</a>
-                            <a href="{% url 'main:delete_item' item.id %}" class="btn btn-danger btn-sm">Hapus</a>
-                            <a href="{% url 'main:edit_item' item.id %}" class="btn btn-primary btn-sm">Edit</a>
-                        </td>
-                    </tr>
-                {% endfor %}
-            </tbody>
-        </table> -->
+    
 
         <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
             <div class="modal-dialog">
@@ -82,7 +54,6 @@
         <div class="container">
             <div class="row" id="product_cards"></div>
         </div>
-        <!-- <table id="product_table"></table> -->
 
         <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal" style="margin-bottom: 10px;">Add Item by AJAX</button>
 
@@ -98,7 +69,10 @@
         }
 
         async function refreshItems() {
+            
             const products = await getItems();
+
+
             const productCardsContainer = document.getElementById("product_cards");
             productCardsContainer.innerHTML = "";
 
@@ -110,15 +84,32 @@
                 <div class="card">
                     <div class="card-body">
                     <h5 class="card-title">${item.fields.name}</h5>
+                    <p class="card-text">Amount: ${item.fields.amount}</p>
                     <p class="card-text">${item.fields.description}</p>
                     <p class="card-text">Price: $${item.fields.price}</p>
                     <p class="card-text">Date Added: ${item.fields.date_added}</p>
+                    <a><button id="add-${item.pk}" class="btn btn-success  " type="submit">Add</button></a>
+                    <a><button id="subtract-${item.pk}" class="btn btn-warning  " type="submit">Subtract</button></a>
+                    <a><button id="edit-${item.pk}" class="btn btn-primary" type="submit">Edit</button></a>
                     <a><button onclick="deleteItem(${item.pk})" class="btn btn-danger" type="submit">Delete</button></a>
                     </div>
                 </div>
                 `;
                 productCardsContainer.appendChild(card);
             });
+
+            products.forEach((item) => {
+                document.getElementById(`edit-${item.pk}`).onclick = () => {
+                    window.location.href = `edit-item/${item.pk}`
+                }
+                document.getElementById(`add-${item.pk}`).onclick = () => {
+                    fetch(`add-item/${item.pk}`).then(refreshItems)
+                }
+                document.getElementById(`subtract-${item.pk}`).onclick = () => {
+                    fetch(`subtract-item/${item.pk}`).then(refreshItems)
+                }
+                })
+            
             }
 
         refreshItems();
@@ -142,6 +133,7 @@
                 method: "DELETE",
             }).then(refreshItems); 
         } 
+
         
     </script>
     
