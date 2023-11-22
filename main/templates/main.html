@@ -13,7 +13,46 @@
 
         <p>Kamu menyimpan {{ total_amount }} item pada aplikasi ini.</p> 
 
+        <table>
+        
+            {% comment %} Berikut cara memperlihatkan data produk di bawah baris ini {% endcomment %}
     
+            <p>Kamu menyimpan {{ total_amount }} item pada aplikasi ini.</p> 
+            <table class="table table-bordered">
+                <thead>
+                    <tr>
+                        <th>Name</th>
+                        <th>Amount</th>
+                        <th>Description</th>
+                        <th>Price</th>
+                        <th>Date Added</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for item in items %}
+                        <tr class="{% if forloop.last %}table-warning{% endif %}">
+                            <td>{{ item.name }}</td>
+                            <td>{{ item.amount }}</td>
+                            <td>{{ item.description }}</td>
+                            <td>${{ item.price }}</td>
+                            <td>{{ item.date_added|date:"Y-m-d" }}</td>
+                            <td>
+                                <a href="{% url 'main:add_item' item.id %}" class="btn btn-success btn-sm">Tambah</a>
+                                <a href="{% url 'main:subtract_item' item.id %}" class="btn btn-warning btn-sm">Kurang</a>
+                                <a href="{% url 'main:delete_item' item.id %}" class="btn btn-danger btn-sm">Hapus</a>
+                                <a href="{% url 'main:edit_item' item.id %}" class="btn btn-primary btn-sm">Edit</a>
+                            </td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+
+            <a href="{% url 'main:create_item' %}">
+                <button>
+                    Add New Product
+                </button>
+            </a>
 
         <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
             <div class="modal-dialog">
